@@ -44,4 +44,8 @@ public class Cell implements Drawable {
     public int getY() {
         return y;
     }
+
+    public boolean isEmpty() {
+        return this.getActor() == null && !(this.getType().equals(CellType.WALL));
+    }
 }

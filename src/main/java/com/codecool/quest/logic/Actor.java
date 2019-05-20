@@ -16,68 +16,37 @@ public abstract class Actor implements Drawable {
 
     public void move(int dx, int dy) {
 
-        int mapWidth = MapLoader.loadMap().getWidth();
-        int mapHeight = MapLoader.loadMap().getHeight();
-        int actorX = this.getX();
-        int actorY = this.getY();
-
-        if(dx + actorX >= mapWidth || dy + actorY >= mapHeight) {
-            System.out.println("Kocham warzywa");
-        }
-        else {
+        if (isOnMap(dx, dy)) {
             Cell nextCell = cell.getNeighbor(dx, dy);
-            CellType neighborCell = nextCell.getType();
-            if(nextCell.getX() >= mapWidth || nextCell.getY() >= mapHeight) {
-                System.out.println("Kocham pączki");
-            }
-            else {
-                if(neighborCell.equals(CellType.WALL)) {
-                    System.out.println("DUPA");
-                }
-
-                else if(nextCell.getActor() == null){
-                    cell.setActor(null);
-                    nextCell.setActor(this);
-                    cell = nextCell;
-                }
+            if (nextCell.isEmpty()) {
+                move(nextCell);
             }
         }
-
-
-
-
-
-
-
-
-
-
-//        if(!neighboorCell.equals(CellType.WALL)) {
-//            if(nextCell.getActor() == null) {
-//                cell.setActor(null);
-//                nextCell.setActor(this);
-//                cell = nextCell;
-//            }
-//
-//            else {
-//
-//        }
-
     }
 
-    public int getHealth() {
-        return health;
+    private void move(Cell nextCell) {
+        cell.setActor(null);
+        nextCell.setActor(this);
+        cell = nextCell;
     }
 
-    public Cell getCell() {
-        return cell;
-    }
+    private boolean isOnMap (int dx, int dy){
+            return dx + this.getX() < MapLoader.loadMap().getWidth() && dy + this.getY() < MapLoader.loadMap().getHeight();
+        }
 
-    public int getX() {
-        return cell.getX();
-    }
+        public int getHealth () {
+            return health;
+        }
 
-    public int getY() {
-        return cell.getY();
+        public Cell getCell () {
+            return cell;
+        }
+
+        public int getX () {
+            return cell.getX();
+        }
+
+        public int getY () {
+            return cell.getY();
+        }
     }
-}
