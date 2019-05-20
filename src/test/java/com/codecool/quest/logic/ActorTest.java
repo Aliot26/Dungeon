@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ActorTest {
-    GameMap gameMap = new GameMap(3, 3);
+        private GameMap gameMap = MapLoader.loadMap();
 
     @Test
     void moveUpdatesCells() {
@@ -30,10 +30,10 @@ class ActorTest {
 
     @Test
     void cannotMoveOutOfMap() {
-        Player player = new Player(gameMap.getCell(2, 1));
+        Player player = new Player(gameMap.getCell(gameMap.getWidth()-1, 1));
         player.move(1, 0);
 
-        assertEquals(2, player.getX());
+        assertEquals(gameMap.getWidth()-1, player.getX());
         assertEquals(1, player.getY());
     }
 }
