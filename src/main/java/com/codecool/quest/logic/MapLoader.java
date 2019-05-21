@@ -28,6 +28,9 @@ public class MapLoader {
                         case '.':
                             cell.setType(CellType.FLOOR);
                             break;
+                        case '-':
+                            cell.setType(CellType.GRASS);
+                            break;
                         case 's':
                             cell.setType(CellType.FLOOR);
                             new Skeleton(cell);
@@ -44,7 +47,22 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             new Key(cell);
                             break;
-                        case 'd':
+                        case '^':
+                            cell.setType(CellType.SKULL);
+                            break;
+                        case 'X':
+                            cell.setType(CellType.GRAVE);
+                            break;
+                        case 'w':
+                            cell.setType(CellType.WATER);
+                            break;
+                        case 'W':
+                            cell.setType(CellType.WATER1);
+                            break;
+                        case 'T':
+                            cell.setType(CellType.TREE);
+                            break;
+                        case 'e':
                             cell.setType(CellType.FLOOR);
                             new Door(cell);
                             break;

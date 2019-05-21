@@ -6,6 +6,7 @@ public abstract class Actor implements Drawable {
 
     private Cell cell;
     private int health = 10;
+    private boolean buttonOn;
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -22,10 +23,11 @@ public abstract class Actor implements Drawable {
                 move(nextCell);
             }
             if(nextCell.hasItem()) {
-                Main.showButton(true);
+                buttonOn = true;
+
             }
             else {
-                Main.showButton(false);
+                buttonOn = false;
             }
         }
     }
@@ -56,4 +58,10 @@ public abstract class Actor implements Drawable {
         public int getY () {
             return cell.getY();
         }
+
+    public boolean isItemPicked() {
+        return buttonOn;
     }
+
+
+}

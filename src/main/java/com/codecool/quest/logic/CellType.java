@@ -4,7 +4,13 @@ public enum CellType {
     EMPTY("empty"),
     FLOOR("floor"),
     WALL("wall"),
-    SWORD("sword");
+    SWORD("sword"),
+    WATER("water"),
+    WATER1("water1"),
+    TREE("tree"),
+    SKULL("skull"),
+    GRAVE("grave"),
+    GRASS("grass");
 
     private final String tileName;
 

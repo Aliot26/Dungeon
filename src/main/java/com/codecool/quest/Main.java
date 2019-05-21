@@ -38,7 +38,7 @@ public class Main extends Application {
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
         pickupButton.setVisible(false);
-        ui.add(pickupButton,1,1);
+        ui.add(pickupButton, 1, 1);
 
         BorderPane borderPane = new BorderPane();
 
@@ -58,20 +58,35 @@ public class Main extends Application {
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().move(0, -1);
+                handlePickupButton();
+
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
+                handlePickupButton();
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().move(-1, 0);
+                handlePickupButton();
                 refresh();
                 break;
             case RIGHT:
-                map.getPlayer().move(1,0);
+                map.getPlayer().move(1, 0);
+                handlePickupButton();
                 refresh();
                 break;
+        }
+    }
+
+    private void handlePickupButton() {
+        if (map.getPlayer().isItemPicked()) {
+            pickupButton.setVisible(true);
+        } else {
+            pickupButton.setVisible(false);
+
+
         }
     }
 
@@ -82,25 +97,20 @@ public class Main extends Application {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
                 if (cell.getActor() != null) {
-                    Tiles.drawTile(context, cell.getActor(), x, y);}
-                else if (cell.getObject() != null) {
-                        Tiles.drawTile(context, cell.getObject(), x, y);
+                    Tiles.drawTile(context, cell.getActor(), x, y);
+                } else if (cell.getObject() != null) {
+                    Tiles.drawTile(context, cell.getObject(), x, y);
 
                 } else {
                     Tiles.drawTile(context, cell, x, y);
                 }
+
             }
-        }
-        healthLabel.setText("" + map.getPlayer().getHealth());
+            healthLabel.setText("" + map.getPlayer().
 
-    }
+                    getHealth());
 
-    public static void showButton(boolean buttonVisible) {
-        if(buttonVisible) {
-            pickupButton.setVisible(true);
         }
-        else {
-            pickupButton.setVisible(false);
-        }
+
     }
 }
