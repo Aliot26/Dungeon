@@ -1,12 +1,13 @@
 package com.codecool.quest.logic;
 
-public class Key extends Object {
-    public Key(Cell cell) {
+public class Door extends Object {
+    public Door(Cell cell) {
         super(cell);
     }
 
     @Override
     public String getTileName() {
-        return "key";
+        return "door";
     }
 }
+
