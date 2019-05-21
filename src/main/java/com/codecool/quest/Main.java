@@ -16,6 +16,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
     Canvas canvas = new Canvas(
@@ -24,7 +27,7 @@ public class Main extends Application {
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     static Button pickupButton = new Button("Pick up item");
-
+    List<String> itemsList = new ArrayList<>();
     public static void main(String[] args) {
         launch(args);
     }
@@ -83,10 +86,22 @@ public class Main extends Application {
     private void handlePickupButton() {
         if (map.getPlayer().getCell().hasItem()) {
             pickupButton.setVisible(true);
-            System.out.println(map.getPlayer().getCell().getObject().getTileName());
+            pickupButton.setOnAction(event -> {
+                itemsList.add(map.getPlayer().getCell().getObject().getTileName());
+                printItems();
+                map.getPlayer().getCell().setObject(null);
+            });
+
         } else {
             pickupButton.setVisible(false);
         }
+    }
+
+    private void printItems(){
+        for (String item:itemsList) {
+            System.out.println(item);
+        }
+        System.out.println("+++++");
     }
 
     private void refresh() {
