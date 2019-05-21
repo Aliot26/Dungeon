@@ -1,11 +1,13 @@
 package com.codecool.quest.logic;
 
+import java.util.ArrayList;
+
 public class GameMap {
     private int width;
     private int height;
     private Cell[][] cells;
-
     private Player player;
+    private ArrayList<Skeleton> skeletons = new ArrayList<>();
 
     public GameMap(int width, int height) {
         this.width = width;
@@ -30,13 +32,19 @@ public class GameMap {
         return player;
     }
 
-
-
     public int getWidth() {
         return width;
     }
 
     public int getHeight() {
         return height;
+    }
+
+    public ArrayList<Skeleton> getSkeletons() {
+        return skeletons;
+    }
+
+    public void setSkeletons(Skeleton skeleton) {
+        skeletons.add(skeleton);
     }
 }

@@ -1,6 +1,6 @@
 package com.codecool.quest.logic;
 
-public class Sword extends Object {
+public class Sword extends Item {
     public Sword(Cell cell) {
         super(cell);
     }

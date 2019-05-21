@@ -1,6 +1,6 @@
 package com.codecool.quest.logic;
 
-public class Key extends Object {
+public class Key extends Item {
 
     private boolean isInInventory;
 

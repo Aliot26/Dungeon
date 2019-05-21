@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Main extends Application {
@@ -24,8 +25,9 @@ public class Main extends Application {
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
-    static Button pickupButton = new Button("Pick up item");
+    Button pickupButton = new Button("Pick up item");
     List<String> itemsList = new ArrayList<>();
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -57,27 +59,58 @@ public class Main extends Application {
 
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
+            // Skeleton move while pressing the arrow
             case UP:
                 map.getPlayer().move(0, -1);
+                moveSkeleton();
                 handlePickupButton();
-
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
+                moveSkeleton();
                 handlePickupButton();
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().move(-1, 0);
+                moveSkeleton();
                 handlePickupButton();
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().move(1, 0);
+                moveSkeleton();
                 handlePickupButton();
                 refresh();
                 break;
+        }
+    }
+
+    private void moveSkeleton() {
+        int randomNumber;
+        for (Skeleton skeleton : map.getSkeletons()) {
+            // Skeletons are created in MapLoader class
+            // Skeletons are gathered in the ArrayList in GameMap class
+            // I hope it's correct according to MVC model...
+            randomNumber = (int) Math.floor(Math.random()*4);
+            // random number is from 0-3 -> calculated for each skeleton in each iteration
+            switch (randomNumber) {
+                case 0:
+                    skeleton.move(0,-1);
+                    break;
+                case 1:
+                    skeleton.move(0,1);
+                    break;
+                case 2:
+                    skeleton.move(-1,0);
+                    break;
+                case 3:
+                    skeleton.move(1, 0);
+                    break;
+                default:
+                    throw new RuntimeException("Number must be from 0 to 3");
+            }
         }
     }
 
@@ -86,33 +119,23 @@ public class Main extends Application {
             pickupButton.setVisible(true);
             pickupButton.setOnAction(event -> {
                 itemsList.add(map.getPlayer().getCell().getObject().getTileName());
-                printItems();
+                String objectName = map.getPlayer().getCell().getObject().getTileName();
 
-                String name = map.getPlayer().getCell().getObject().getTileName();
-                switch (name) {
+                switch (objectName) {
                     case "sword":
-                        new Sword(map.getCell(28,itemsList.size()));
+                        new Sword(map.getCell(28, itemsList.size()));
                         break;
                     case "key":
-                        new Key(map.getCell(28,itemsList.size()));
+                        new Key(map.getCell(28, itemsList.size()));
                         break;
                 }
                 map.getPlayer().getCell().setObject(null);
                 refresh();
-
-
             });
-
-        } else {
+        }
+        else {
             pickupButton.setVisible(false);
         }
-    }
-
-    private void printItems(){
-        for (String item:itemsList) {
-            System.out.println(item);
-        }
-        System.out.println("+++++");
     }
 
     private void refresh() {
@@ -123,18 +146,16 @@ public class Main extends Application {
                 Cell cell = map.getCell(x, y);
                 if (cell.getActor() != null) {
                     Tiles.drawTile(context, cell.getActor(), x, y);
-                } else if (cell.getObject() != null) {
+                }
+                else if (cell.getObject() != null) {
                     Tiles.drawTile(context, cell.getObject(), x, y);
 
-                } else {
+                }
+                else {
                     Tiles.drawTile(context, cell, x, y);
                 }
-
             }
-            healthLabel.setText("" + map.getPlayer().
-
-                    getHealth());
-
+            healthLabel.setText("" + map.getPlayer().getHealth());
         }
 
     }

@@ -1,6 +1,6 @@
 package com.codecool.quest.logic;
 
-public class Door extends Object {
+public class Door extends Item {
     private boolean isOpened;
     public Door(Cell cell) {
         super(cell);

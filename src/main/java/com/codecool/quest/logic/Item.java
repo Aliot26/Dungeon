@@ -1,11 +1,11 @@
 package com.codecool.quest.logic;
 
-public abstract class Object implements Drawable {
+public abstract class Item implements Drawable {
 
     private Cell cell;
 
 
-    public Object(Cell cell) {
+    public Item(Cell cell) {
         this.cell = cell;
         this.cell.setObject(this);
     }

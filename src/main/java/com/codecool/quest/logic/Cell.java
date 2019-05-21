@@ -2,7 +2,7 @@ package com.codecool.quest.logic;
 
 public class Cell implements Drawable {
     private CellType type = CellType.EMPTY;
-    private Object object;
+    private Item object;
     private Actor actor;
     private GameMap gameMap;
     private int x, y;
@@ -30,11 +30,11 @@ public class Cell implements Drawable {
         return actor;
     }
 
-    public void setObject(Object object) {
+    public void setObject(Item object) {
         this.object = object;
     }
 
-    public Object getObject() {
+    public Item getObject() {
         return object;
     }
 
