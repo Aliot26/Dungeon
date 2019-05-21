@@ -81,12 +81,11 @@ public class Main extends Application {
     }
 
     private void handlePickupButton() {
-        if (map.getPlayer().isItemPicked()) {
+        if (map.getPlayer().getCell().hasItem()) {
             pickupButton.setVisible(true);
+            System.out.println(map.getPlayer().getCell().getObject().getTileName());
         } else {
             pickupButton.setVisible(false);
-
-
         }
     }
 
