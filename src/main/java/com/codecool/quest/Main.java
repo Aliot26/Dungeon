@@ -130,6 +130,7 @@ public class Main extends Application {
                         break;
                 }
                 map.getPlayer().getCell().setObject(null);
+                pickupButton.setVisible(false);
                 refresh();
             });
         }
