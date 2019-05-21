@@ -1,8 +1,6 @@
 package com.codecool.quest;
 
-import com.codecool.quest.logic.Cell;
-import com.codecool.quest.logic.GameMap;
-import com.codecool.quest.logic.MapLoader;
+import com.codecool.quest.logic.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -89,7 +87,20 @@ public class Main extends Application {
             pickupButton.setOnAction(event -> {
                 itemsList.add(map.getPlayer().getCell().getObject().getTileName());
                 printItems();
+
+                String name = map.getPlayer().getCell().getObject().getTileName();
+                switch (name) {
+                    case "sword":
+                        new Sword(map.getCell(28,itemsList.size()));
+                        break;
+                    case "key":
+                        new Key(map.getCell(28,itemsList.size()));
+                        break;
+                }
                 map.getPlayer().getCell().setObject(null);
+                refresh();
+
+
             });
 
         } else {

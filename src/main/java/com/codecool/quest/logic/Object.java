@@ -44,4 +44,5 @@ public abstract class Object implements Drawable {
     public int getY () {
         return cell.getY();
     }
+
 }

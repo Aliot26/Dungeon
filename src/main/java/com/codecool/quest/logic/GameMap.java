@@ -30,6 +30,8 @@ public class GameMap {
         return player;
     }
 
+
+
     public int getWidth() {
         return width;
     }
