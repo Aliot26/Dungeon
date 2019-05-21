@@ -2,9 +2,11 @@ package com.codecool.quest.logic;
 
 public class Cell implements Drawable {
     private CellType type = CellType.EMPTY;
+    private Object object;
     private Actor actor;
     private GameMap gameMap;
     private int x, y;
+
 
     Cell(GameMap gameMap, int x, int y) {
         this.gameMap = gameMap;
@@ -28,6 +30,15 @@ public class Cell implements Drawable {
         return actor;
     }
 
+    public void setObject(Object object) {
+        this.object = object;
+    }
+
+    public Object getObject() {
+        return object;
+    }
+
+
     public Cell getNeighbor(int dx, int dy) {
         return gameMap.getCell(x + dx, y + dy);
     }
@@ -46,6 +57,6 @@ public class Cell implements Drawable {
     }
 
     public boolean isEmpty() {
-        return this.getActor() == null && !(this.getType().equals(CellType.WALL));
+        return this.getActor() == null && this.getObject() ==null && !(this.getType().equals(CellType.WALL));
     }
 }

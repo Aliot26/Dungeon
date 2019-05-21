@@ -10,14 +10,14 @@ public abstract class Actor implements Drawable {
         this.cell.setActor(this);
     }
 
-    public void checkBounds() {
 
-    }
 
     public void move(int dx, int dy) {
 
         if (isOnMap(dx, dy)) {
             Cell nextCell = cell.getNeighbor(dx, dy);
+            System.out.println(nextCell.getObject());
+            System.out.println(nextCell.getActor());
             if (nextCell.isEmpty()) {
                 move(nextCell);
             }
