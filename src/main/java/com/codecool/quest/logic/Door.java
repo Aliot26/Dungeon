@@ -13,7 +13,7 @@ public class Door extends Object {
     public void openDoor(Key key) {
         if (key.getIsInInventory()) {
             isOpened = true;
-            key.setInInventory(false);
+            key.setIsInInventory(false);
         }
     }
 
