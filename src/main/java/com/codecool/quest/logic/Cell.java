@@ -57,6 +57,6 @@ public class Cell implements Drawable {
     }
 
     public boolean isEmpty() {
-        return this.getActor() == null && this.getObject() ==null && !(this.getType().equals(CellType.WALL));
+        return this.getActor() == null  && !(this.getType().equals(CellType.WALL));
     }
 }

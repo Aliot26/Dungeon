@@ -16,8 +16,6 @@ public abstract class Actor implements Drawable {
 
         if (isOnMap(dx, dy)) {
             Cell nextCell = cell.getNeighbor(dx, dy);
-            System.out.println(nextCell.getObject());
-            System.out.println(nextCell.getActor());
             if (nextCell.isEmpty()) {
                 move(nextCell);
             }
