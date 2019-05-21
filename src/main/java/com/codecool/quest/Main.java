@@ -8,6 +8,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -22,6 +23,7 @@ public class Main extends Application {
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
+    static Button pickupButton = new Button("Pick up item");
 
     public static void main(String[] args) {
         launch(args);
@@ -35,6 +37,8 @@ public class Main extends Application {
 
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
+        pickupButton.setVisible(false);
+        ui.add(pickupButton,1,1);
 
         BorderPane borderPane = new BorderPane();
 
@@ -88,5 +92,15 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
+
+    }
+
+    public static void showButton(boolean buttonVisible) {
+        if(buttonVisible) {
+            pickupButton.setVisible(true);
+        }
+        else {
+            pickupButton.setVisible(false);
+        }
     }
 }
