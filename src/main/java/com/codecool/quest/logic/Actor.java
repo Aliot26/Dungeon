@@ -1,5 +1,7 @@
 package com.codecool.quest.logic;
 
+import com.codecool.quest.Main;
+
 public abstract class Actor implements Drawable {
 
     private Cell cell;
@@ -19,6 +21,12 @@ public abstract class Actor implements Drawable {
             if (nextCell.isEmpty()) {
                 move(nextCell);
             }
+            if(nextCell.hasItem()) {
+                Main.showButton(true);
+            }
+            else {
+                Main.showButton(false);
+            }
         }
     }
 
@@ -27,6 +35,7 @@ public abstract class Actor implements Drawable {
         nextCell.setActor(this);
         cell = nextCell;
     }
+
 
     private boolean isOnMap (int dx, int dy){
             return dx + this.getX() < MapLoader.loadMap().getWidth() && dy + this.getY() < MapLoader.loadMap().getHeight();
