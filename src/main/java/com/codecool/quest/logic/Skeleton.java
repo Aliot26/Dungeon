@@ -19,6 +19,8 @@ public class Skeleton extends Actor {
             Cell nextCell = cell.getNeighbor(dx, dy);
             if (nextCell.isEmpty()) {
                 move(nextCell);
+                this.setX(this.getX() + dx);
+                this.setY(this.getY() + dy);
             }
         }
     }

@@ -15,7 +15,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Main extends Application {
@@ -27,6 +26,7 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Button pickupButton = new Button("Pick up item");
     List<String> itemsList = new ArrayList<>();
+    Utils utils = new Utils();
 
     public static void main(String[] args) {
         launch(args);
@@ -62,32 +62,37 @@ public class Main extends Application {
             // Skeleton move while pressing the arrow
             case UP:
                 map.getPlayer().move(0, -1);
-                moveSkeleton();
+                moveSkeletons();
+                handleCollision();
                 handlePickupButton();
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
-                moveSkeleton();
+                moveSkeletons();
+                handleCollision();
                 handlePickupButton();
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().move(-1, 0);
-                moveSkeleton();
+                moveSkeletons();
+                handleCollision();
                 handlePickupButton();
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().move(1, 0);
-                moveSkeleton();
+                moveSkeletons();
+                handleCollision();
                 handlePickupButton();
                 refresh();
                 break;
         }
     }
 
-    private void moveSkeleton() {
+
+    private void moveSkeletons() {
         int randomNumber;
         for (Skeleton skeleton : map.getSkeletons()) {
             // Skeletons are created in MapLoader class
@@ -110,6 +115,28 @@ public class Main extends Application {
                     break;
                 default:
                     throw new RuntimeException("Number must be from 0 to 3");
+            }
+        }
+    }
+
+    private void handleCollision() {
+        int playerX = map.getPlayer().getX();
+        int playerY = map.getPlayer().getY();
+
+        System.out.println("Player X = " + playerX);
+        System.out.println("Player Y = " + playerY);
+
+        for (Skeleton skeleton : map.getSkeletons()) {
+            int skeletonX = skeleton.getX();
+            int skeletonY = skeleton.getY();
+
+            System.out.println("Skeleton X = " + skeletonX);
+            System.out.println("Skeleton Y = " + skeletonY);
+            System.out.println("====================");
+
+            if(playerX == skeletonX && playerY == skeletonY) {
+                System.out.println("Kolizja");
+                utils.playSound("src/main/resources/snd/bite.wav");
             }
         }
     }
@@ -158,6 +185,5 @@ public class Main extends Application {
             }
             healthLabel.setText("" + map.getPlayer().getHealth());
         }
-
     }
 }

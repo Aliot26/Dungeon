@@ -3,7 +3,7 @@ package com.codecool.quest.logic;
 
 public abstract class Actor implements Drawable {
 
-    private Cell cell;
+    protected Cell cell;
     private int health = 10;
 
     public Actor(Cell cell) {
@@ -46,5 +46,13 @@ public abstract class Actor implements Drawable {
 
     public int getY() {
         return cell.getY();
+    }
+
+    public void setX(int x) {
+        cell.setX(x);
+    }
+
+    public void setY(int y) {
+        cell.setY(y);
     }
 }
