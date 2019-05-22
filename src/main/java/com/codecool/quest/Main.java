@@ -145,31 +145,20 @@ public class Main extends Application {
     }
 
     private void openDoor(int x, int y) {
-//        System.out.println(map.getPlayer().getCell().getNeighbor(x, y).getObject());
         if (itemsList.contains("key")
                 && map.getPlayer().getCell().getNeighbor(x, y).getTileName().equals(CellType.DOOR.getTileName())) {
             int doorX = map.getPlayer().getCell().getNeighbor(x, y).getX();
             int doorY = map.getPlayer().getCell().getNeighbor(x, y).getY();
             map.getPlayer().getCell().getNeighbor(x, y).setType(CellType.FLOOR);
             map.getPlayer().getCell().getNeighbor(x, y).setObject(null);
-//            for (int i = 1; i < itemsList.size()-1; i++) {
-//                if(map.getCell(28, i).getObject().getTileName().equals("key")){
-//                    map.getCell(28,i).setObject(null);
-//                }
-//            }
-//            itemsList.remove("key");
-//            refresh();
             Door openedDoor = new Door(map.getCell(doorX, doorY));
             openedDoor.setOpened(true);
-            openedDoor.getTileName();
-//            openedDoor.openDoor(key);
-
-
-//            map.getPlayer().getCell().getNeighbor(x,y).setObject(null);
-
-//            map.getPlayer().getCell().getNeighbor(x, y).getObject().getClass()
-
-//            map.getPlayer().getCell().getNeighbor(x, y).setObject(null);
+            for (int i = 1; i <= itemsList.size(); i++) {
+                if(map.getCell(28, i).getObject().getTileName().equals("key")){
+                    map.getCell(28,i).setObject(null);
+                    itemsList.remove("key");
+                }
+            }
         }
     }
 
