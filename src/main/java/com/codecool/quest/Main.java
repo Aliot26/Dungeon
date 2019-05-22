@@ -8,10 +8,15 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -25,7 +30,12 @@ public class Main extends Application {
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
+    Label nameLabel = new Label();
     Button pickupButton = new Button("Pick up item");
+
+
+
+
     List<String> itemsList = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -38,15 +48,29 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
-        ui.add(new Label("Health: "), 0, 0);
-        ui.add(healthLabel, 1, 0);
+
+        final Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(primaryStage);
+        VBox dialogVbox = new VBox(20);
+        dialogVbox.getChildren().add(new Text("Input form"));
+        Scene dialogScene = new Scene(dialogVbox, 300, 200);
+        dialog.setScene(dialogScene);
+        dialog.show();
+
+
+        ui.add(new Label("Name: "), 0, 0);
+        ui.add(nameLabel, 1, 0);
+        ui.add(new Label("Health: "), 0, 1);
+        ui.add(healthLabel, 1, 1);
         pickupButton.setVisible(false);
-        ui.add(pickupButton, 1, 1);
+        ui.add(pickupButton, 1, 2);
 
         BorderPane borderPane = new BorderPane();
 
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
+
 
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
@@ -153,8 +177,8 @@ public class Main extends Application {
             Door openedDoor = new Door(map.getCell(doorX, doorY));
             openedDoor.setOpened(true);
             for (int i = 1; i <= itemsList.size(); i++) {
-                if(map.getCell(28, i).getObject().getTileName().equals("key")){
-                    map.getCell(28,i).setObject(null);
+                if (map.getCell(28, i).getObject().getTileName().equals("key")) {
+                    map.getCell(28, i).setObject(null);
                     itemsList.remove("key");
                 }
             }
