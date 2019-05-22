@@ -63,7 +63,7 @@ public class MapLoader {
                             cell.setType(CellType.TREE);
                             break;
                         case 'e':
-                            cell.setType(CellType.FLOOR);
+                            cell.setType(CellType.DOOR);
                             new Door(cell);
                             break;
                         default:
