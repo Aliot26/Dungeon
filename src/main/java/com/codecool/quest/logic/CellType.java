@@ -11,6 +11,7 @@ public enum CellType {
     SKULL("skull"),
     GRAVE("grave"),
     DOOR("door"),
+    OPEN_DOOR("open_door"),
     GRASS("grass");
 
     private final String tileName;

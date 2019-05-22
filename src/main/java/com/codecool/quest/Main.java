@@ -27,6 +27,8 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Button pickupButton = new Button("Pick up item");
     List<String> itemsList = new ArrayList<>();
+    Key key;
+    Door door;
 
     public static void main(String[] args) {
         launch(args);
@@ -62,24 +64,28 @@ public class Main extends Application {
             // Skeleton move while pressing the arrow
             case UP:
                 map.getPlayer().move(0, -1);
+                openDoor(0, -1);
                 moveSkeleton();
                 handlePickupButton();
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
+                openDoor(0, 1);
                 moveSkeleton();
                 handlePickupButton();
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().move(-1, 0);
+                openDoor(-1, 0);
                 moveSkeleton();
                 handlePickupButton();
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().move(1, 0);
+                openDoor(1, 0);
                 moveSkeleton();
                 handlePickupButton();
                 refresh();
@@ -93,17 +99,17 @@ public class Main extends Application {
             // Skeletons are created in MapLoader class
             // Skeletons are gathered in the ArrayList in GameMap class
             // I hope it's correct according to MVC model...
-            randomNumber = (int) Math.floor(Math.random()*4);
+            randomNumber = (int) Math.floor(Math.random() * 4);
             // random number is from 0-3 -> calculated for each skeleton in each iteration
             switch (randomNumber) {
                 case 0:
-                    skeleton.move(0,-1);
+                    skeleton.move(0, -1);
                     break;
                 case 1:
-                    skeleton.move(0,1);
+                    skeleton.move(0, 1);
                     break;
                 case 2:
-                    skeleton.move(-1,0);
+                    skeleton.move(-1, 0);
                     break;
                 case 3:
                     skeleton.move(1, 0);
@@ -126,18 +132,47 @@ public class Main extends Application {
                         new Sword(map.getCell(28, itemsList.size()));
                         break;
                     case "key":
-                        new Key(map.getCell(28, itemsList.size()));
+                        key = new Key(map.getCell(28, itemsList.size()));
                         break;
                 }
                 map.getPlayer().getCell().setObject(null);
                 pickupButton.setVisible(false);
                 refresh();
             });
-        }
-        else {
+        } else {
             pickupButton.setVisible(false);
         }
     }
+
+    private void openDoor(int x, int y) {
+//        System.out.println(map.getPlayer().getCell().getNeighbor(x, y).getObject());
+        if (itemsList.contains("key")
+                && map.getPlayer().getCell().getNeighbor(x, y).getTileName().equals(CellType.DOOR.getTileName())) {
+            int doorX = map.getPlayer().getCell().getNeighbor(x, y).getX();
+            int doorY = map.getPlayer().getCell().getNeighbor(x, y).getY();
+            map.getPlayer().getCell().getNeighbor(x, y).setType(CellType.FLOOR);
+            map.getPlayer().getCell().getNeighbor(x, y).setObject(null);
+//            for (int i = 1; i < itemsList.size()-1; i++) {
+//                if(map.getCell(28, i).getObject().getTileName().equals("key")){
+//                    map.getCell(28,i).setObject(null);
+//                }
+//            }
+//            itemsList.remove("key");
+//            refresh();
+            Door openedDoor = new Door(map.getCell(doorX, doorY));
+            openedDoor.setOpened(true);
+            openedDoor.getTileName();
+//            openedDoor.openDoor(key);
+
+
+//            map.getPlayer().getCell().getNeighbor(x,y).setObject(null);
+
+//            map.getPlayer().getCell().getNeighbor(x, y).getObject().getClass()
+
+//            map.getPlayer().getCell().getNeighbor(x, y).setObject(null);
+        }
+    }
+
 
     private void refresh() {
         context.setFill(Color.BLACK);
@@ -147,12 +182,10 @@ public class Main extends Application {
                 Cell cell = map.getCell(x, y);
                 if (cell.getActor() != null) {
                     Tiles.drawTile(context, cell.getActor(), x, y);
-                }
-                else if (cell.getObject() != null) {
+                } else if (cell.getObject() != null) {
                     Tiles.drawTile(context, cell.getObject(), x, y);
 
-                }
-                else {
+                } else {
                     Tiles.drawTile(context, cell, x, y);
                 }
             }
