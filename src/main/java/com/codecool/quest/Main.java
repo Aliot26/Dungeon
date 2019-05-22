@@ -119,7 +119,8 @@ public class Main extends Application {
     }
 
     private void handlePickupButton() {
-        if (map.getPlayer().getCell().hasItem()) {
+        if (map.getPlayer().getCell().hasItem()
+                && !map.getPlayer().getCell().getObject().getTileName().equals(CellType.OPEN_DOOR.getTileName())) {
             pickupButton.setVisible(true);
             pickupButton.setOnAction(event -> {
                 itemsList.add(map.getPlayer().getCell().getObject().getTileName());
