@@ -27,8 +27,6 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Button pickupButton = new Button("Pick up item");
     List<String> itemsList = new ArrayList<>();
-    Key key;
-    Door door;
 
     public static void main(String[] args) {
         launch(args);
@@ -132,7 +130,7 @@ public class Main extends Application {
                         new Sword(map.getCell(28, itemsList.size()));
                         break;
                     case "key":
-                        key = new Key(map.getCell(28, itemsList.size()));
+                        new Key(map.getCell(28, itemsList.size()));
                         break;
                 }
                 map.getPlayer().getCell().setObject(null);
