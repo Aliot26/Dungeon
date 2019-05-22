@@ -143,7 +143,7 @@ public class Main extends Application {
         }
     }
 
-    private void openDoor(int x, int y) {
+    public void openDoor(int x, int y) {
         if (itemsList.contains("key")
                 && map.getPlayer().getCell().getNeighbor(x, y).getTileName().equals(CellType.DOOR.getTileName())) {
             int doorX = map.getPlayer().getCell().getNeighbor(x, y).getX();
