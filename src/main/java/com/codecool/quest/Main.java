@@ -12,6 +12,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class Main extends Application {
     Button pickupButton = new Button("Pick up item");
     List<String> itemsList = new ArrayList<>();
     Utils utils = new Utils();
+    boolean gameContinues;
 
     public static void main(String[] args) {
         launch(args);
@@ -34,6 +36,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        gameContinues = true;
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
@@ -44,7 +47,6 @@ public class Main extends Application {
         ui.add(pickupButton, 1, 1);
 
         BorderPane borderPane = new BorderPane();
-
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
 
@@ -58,63 +60,73 @@ public class Main extends Application {
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
-        switch (keyEvent.getCode()) {
-            // Skeleton move while pressing the arrow
-            case UP:
-                map.getPlayer().move(0, -1);
-                moveSkeletons();
-                handleCollision();
-                handlePickupButton();
-                refresh();
-                break;
-            case DOWN:
-                map.getPlayer().move(0, 1);
-                moveSkeletons();
-                handleCollision();
-                handlePickupButton();
-                refresh();
-                break;
-            case LEFT:
-                map.getPlayer().move(-1, 0);
-                moveSkeletons();
-                handleCollision();
-                handlePickupButton();
-                refresh();
-                break;
-            case RIGHT:
-                map.getPlayer().move(1, 0);
-                moveSkeletons();
-                handleCollision();
-                handlePickupButton();
-                refresh();
-                break;
+        if (gameContinues) {
+            switch (keyEvent.getCode()) {
+                // Skeleton move while pressing the arrow
+                case UP:
+                    map.getPlayer().move(0, -1);
+                    moveSkeletons();
+                    handleCollision();
+                    handlePickupButton();
+                    refresh();
+                    break;
+                case DOWN:
+                    map.getPlayer().move(0, 1);
+                    moveSkeletons();
+                    handleCollision();
+                    handlePickupButton();
+                    refresh();
+                    break;
+                case LEFT:
+                    map.getPlayer().move(-1, 0);
+                    moveSkeletons();
+                    handleCollision();
+                    handlePickupButton();
+                    refresh();
+                    break;
+                case RIGHT:
+                    map.getPlayer().move(1, 0);
+                    moveSkeletons();
+                    handleCollision();
+                    handlePickupButton();
+                    refresh();
+                    break;
+            }
         }
     }
 
 
     private void moveSkeletons() {
-        int randomNumber;
         for (Skeleton skeleton : map.getSkeletons()) {
-            // Skeletons are created in MapLoader class
-            // Skeletons are gathered in the ArrayList in GameMap class
-            // I hope it's correct according to MVC model...
-            randomNumber = (int) Math.floor(Math.random()*4);
-            // random number is from 0-3 -> calculated for each skeleton in each iteration
-            switch (randomNumber) {
-                case 0:
-                    skeleton.move(0,-1);
-                    break;
-                case 1:
-                    skeleton.move(0,1);
-                    break;
-                case 2:
-                    skeleton.move(-1,0);
-                    break;
-                case 3:
-                    skeleton.move(1, 0);
-                    break;
-                default:
-                    throw new RuntimeException("Number must be from 0 to 3");
+            if (skeleton.canMove()) {
+                int randomNumber = (int) Math.floor(Math.random() * 4);
+                switch (randomNumber) {
+                    case 0:
+                        skeleton.move(0, -1);
+                        break;
+                    case 1:
+                        skeleton.move(0, 1);
+                        break;
+                    case 2:
+                        skeleton.move(-1, 0);
+                        break;
+                    case 3:
+                        skeleton.move(1, 0);
+                        break;
+                    default:
+                        throw new RuntimeException("Number must be from 0 to 3");
+                }
+            } else {
+                skeleton.canMove(true);
+            }
+
+            int playerX = map.getPlayer().getX();
+            int playerY = map.getPlayer().getY();
+            int skeletonX = skeleton.getX();
+            int skeletonY = skeleton.getY();
+
+            if (skeleton.ifNextToPlayer(playerX, playerY, skeletonX, skeletonY)) {
+                skeleton.canMove(false);
             }
         }
     }
@@ -123,21 +135,45 @@ public class Main extends Application {
         int playerX = map.getPlayer().getX();
         int playerY = map.getPlayer().getY();
 
-        System.out.println("Player X = " + playerX);
-        System.out.println("Player Y = " + playerY);
-
         for (Skeleton skeleton : map.getSkeletons()) {
             int skeletonX = skeleton.getX();
             int skeletonY = skeleton.getY();
 
-            System.out.println("Skeleton X = " + skeletonX);
-            System.out.println("Skeleton Y = " + skeletonY);
-            System.out.println("====================");
+            if (playerX == skeletonX && playerY == skeletonY) {
+                utils.playSound(utils.getCollisionSoundPath());
+                addSkeletonDmg(skeleton);
+                addPlayerDmg();
 
-            if(playerX == skeletonX && playerY == skeletonY) {
-                System.out.println("Kolizja");
-                utils.playSound("src/main/resources/snd/bite.wav");
+                if (skeleton.getHealth() <= 0) {
+                    map.getSkeletons().remove(skeleton);
+                    break;
+                }
             }
+        }
+    }
+
+    private void addSkeletonDmg(Skeleton skeleton) {
+        // skeleton dmg 1-10
+        int dmg = (int) Math.floor(Math.random() * 10) + 1;
+        skeleton.setHealth(skeleton.getHealth() - dmg);
+
+        // I cannot check whether player has sword in inventory.... :(
+    }
+
+    private void addPlayerDmg() {
+        // player dmg 1-3
+        int dmg = (int) Math.floor(Math.random() * 3) + 1;
+        int healthBeforeHit = map.getPlayer().getHealth();
+
+        map.getPlayer().setHealth(healthBeforeHit - dmg);
+        healthLabel.setText("" + map.getPlayer().getHealth());
+
+        // Lose condition
+        if (map.getPlayer().getHealth() <= 0) {
+            utils.playSound(utils.getGameOverSoundPath());
+            healthLabel.setFont(new Font(20));
+            healthLabel.setText("Game over");
+            gameContinues = false;
         }
     }
 
@@ -150,7 +186,7 @@ public class Main extends Application {
 
                 switch (objectName) {
                     case "sword":
-                        new Sword(map.getCell(28, itemsList.size()));
+                        new Sword(map.getCell(28, itemsList.size())).setInInventory(true);
                         break;
                     case "key":
                         new Key(map.getCell(28, itemsList.size()));
@@ -167,23 +203,23 @@ public class Main extends Application {
     }
 
     private void refresh() {
-        context.setFill(Color.BLACK);
-        context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        for (int x = 0; x < map.getWidth(); x++) {
-            for (int y = 0; y < map.getHeight(); y++) {
-                Cell cell = map.getCell(x, y);
-                if (cell.getActor() != null) {
-                    Tiles.drawTile(context, cell.getActor(), x, y);
-                }
-                else if (cell.getObject() != null) {
-                    Tiles.drawTile(context, cell.getObject(), x, y);
+        if (gameContinues) {
+            context.setFill(Color.BLACK);
+            context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            for (int x = 0; x < map.getWidth(); x++) {
+                for (int y = 0; y < map.getHeight(); y++) {
+                    Cell cell = map.getCell(x, y);
+                    if (cell.getActor() != null) {
+                        Tiles.drawTile(context, cell.getActor(), x, y);
+                    } else if (cell.getObject() != null) {
+                        Tiles.drawTile(context, cell.getObject(), x, y);
 
+                    } else {
+                        Tiles.drawTile(context, cell, x, y);
+                    }
                 }
-                else {
-                    Tiles.drawTile(context, cell, x, y);
-                }
+                healthLabel.setText("" + map.getPlayer().getHealth());
             }
-            healthLabel.setText("" + map.getPlayer().getHealth());
         }
     }
 }

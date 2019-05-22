@@ -11,28 +11,6 @@ public abstract class Item implements Drawable {
     }
 
 
-
-    public void move(int dx, int dy) {
-
-        if (isOnMap(dx, dy)) {
-            Cell nextCell = cell.getNeighbor(dx, dy);
-            if (nextCell.isEmpty()) {
-                move(nextCell);
-            }
-        }
-    }
-
-    private void move(Cell nextCell) {
-        cell.setActor(null);
-        nextCell.setObject(this);
-        cell = nextCell;
-    }
-
-    private boolean isOnMap (int dx, int dy){
-        return dx + this.getX() < MapLoader.loadMap().getWidth() && dy + this.getY() < MapLoader.loadMap().getHeight();
-    }
-
-
     public Cell getCell () {
         return cell;
     }
@@ -44,5 +22,9 @@ public abstract class Item implements Drawable {
     public int getY () {
         return cell.getY();
     }
+
+    abstract public boolean isInInventory();
+
+    abstract public void setInInventory(boolean inInventory);
 
 }

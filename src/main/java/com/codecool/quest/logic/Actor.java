@@ -3,7 +3,7 @@ package com.codecool.quest.logic;
 
 public abstract class Actor implements Drawable {
 
-    protected Cell cell;
+    private Cell cell;
     private int health = 10;
 
     public Actor(Cell cell) {
@@ -21,19 +21,23 @@ public abstract class Actor implements Drawable {
         }
     }
 
-    private void move(Cell nextCell) {
+    protected void move(Cell nextCell) {
         cell.setActor(null);
         nextCell.setActor(this);
         cell = nextCell;
     }
 
 
-    private boolean isOnMap(int dx, int dy) {
+    protected boolean isOnMap(int dx, int dy) {
         return dx + this.getX() < MapLoader.loadMap().getWidth() && dy + this.getY() < MapLoader.loadMap().getHeight();
     }
 
     public int getHealth() {
         return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public Cell getCell() {
@@ -48,11 +52,5 @@ public abstract class Actor implements Drawable {
         return cell.getY();
     }
 
-    public void setX(int x) {
-        cell.setX(x);
-    }
 
-    public void setY(int y) {
-        cell.setY(y);
-    }
 }

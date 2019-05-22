@@ -6,6 +6,16 @@ public class Door extends Item {
         super(cell);
     }
 
+    @Override
+    public boolean isInInventory() {
+        return false;
+    }
+
+    @Override
+    public void setInInventory(boolean inInventory) {
+
+    }
+
     public boolean getIsOpened() {
         return isOpened;
     }

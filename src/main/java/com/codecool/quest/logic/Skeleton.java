@@ -2,11 +2,10 @@ package com.codecool.quest.logic;
 
 public class Skeleton extends Actor {
 
-    private Cell cell;
+    private boolean canMove = true;
 
     public Skeleton(Cell cell) {
         super(cell);
-        this.cell = cell;
     }
 
     @Override
@@ -14,24 +13,15 @@ public class Skeleton extends Actor {
         return "skeleton";
     }
 
-    public void move(int dx, int dy) {
-        if (isOnMap(dx, dy)) {
-            Cell nextCell = cell.getNeighbor(dx, dy);
-            if (nextCell.isEmpty()) {
-                move(nextCell);
-                this.setX(this.getX() + dx);
-                this.setY(this.getY() + dy);
-            }
-        }
+    public boolean canMove() {
+        return canMove;
     }
 
-    private void move(Cell nextCell) {
-        cell.setActor(null);
-        nextCell.setActor(this);
-        cell = nextCell;
+    public void canMove(boolean canMove) {
+        this.canMove = canMove;
     }
 
-    private boolean isOnMap(int dx, int dy) {
-        return dx + this.getX() < MapLoader.loadMap().getWidth() && dy + this.getY() < MapLoader.loadMap().getHeight();
+    public boolean ifNextToPlayer(int playerX, int playerY, int skeletonX, int skeletonY) {
+        return (skeletonX + 1 == playerX && skeletonY == playerY) || (skeletonX - 1 == playerX && skeletonY == playerY) || (skeletonY + 1 == playerY && skeletonX == playerX) || (skeletonY - 1 == playerY && skeletonX == playerX);
     }
 }
