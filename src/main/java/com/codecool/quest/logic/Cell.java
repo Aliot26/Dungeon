@@ -1,5 +1,7 @@
 package com.codecool.quest.logic;
 
+import java.util.Objects;
+
 public class Cell implements Drawable {
     private CellType type = CellType.EMPTY;
     private Item object;
@@ -65,7 +67,9 @@ public class Cell implements Drawable {
     }
 
     public boolean isEmpty() {
-        if (gameMap.getPlayer().getNamePlayer().equals("Admin")){
+        String playerName =gameMap.getPlayer().getNamePlayer();
+
+        if ( Objects.nonNull(playerName) && playerName.equals("Admin")){
             return (!(this.getType().equals(CellType.DOOR))
                     && !(this.getType().equals(CellType.TREE))
                     && !(this.getType().equals(CellType.GRAVE))

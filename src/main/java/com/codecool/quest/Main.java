@@ -246,35 +246,37 @@ public class Main extends Application {
         }
     }
 
+    private void removeClosedDoor(int x, int y) {
+        map.getPlayer().getCell().getNeighbor(x, y).setType(CellType.FLOOR);
+        map.getPlayer().getCell().getNeighbor(x, y).setObject(null);
+    }
+
+    private void removeKeyFromInventory(String key){
+        for (int i = 1; i <= itemsList.size(); i++) {
+            if (map.getCell(28, i).getObject().getTileName().equals(key)) {
+                map.getCell(28, i).setObject(null);
+                itemsList.remove(key);
+            }
+        }
+    }
+
+
     public void openDoor(int x, int y) {
+        int doorX = map.getPlayer().getCell().getNeighbor(x, y).getX();
+        int doorY = map.getPlayer().getCell().getNeighbor(x, y).getY();
+
         if (itemsList.contains("key")
                 && map.getPlayer().getCell().getNeighbor(x, y).getTileName().equals(CellType.DOOR.getTileName())) {
-            int doorX = map.getPlayer().getCell().getNeighbor(x, y).getX();
-            int doorY = map.getPlayer().getCell().getNeighbor(x, y).getY();
-            map.getPlayer().getCell().getNeighbor(x, y).setType(CellType.FLOOR);
-            map.getPlayer().getCell().getNeighbor(x, y).setObject(null);
+            removeClosedDoor(x, y);
             Door openedDoor = new Door(map.getCell(doorX, doorY));
             openedDoor.setOpened(true);
-            for (int i = 1; i <= itemsList.size(); i++) {
-                if (map.getCell(28, i).getObject().getTileName().equals("key")) {
-                    map.getCell(28, i).setObject(null);
-                    itemsList.remove("key");
-                }
-            }
+            removeKeyFromInventory("key");
         } else if (itemsList.contains("exitkey")
                 && map.getPlayer().getCell().getNeighbor(x, y).getTileName().equals(CellType.EXITDOOR.getTileName())) {
-            int doorX = map.getPlayer().getCell().getNeighbor(x, y).getX();
-            int doorY = map.getPlayer().getCell().getNeighbor(x, y).getY();
-            map.getPlayer().getCell().getNeighbor(x, y).setType(CellType.FLOOR);
-            map.getPlayer().getCell().getNeighbor(x, y).setObject(null);
+            removeClosedDoor(x, y);
             ExitDoor openedDoor = new ExitDoor(map.getCell(doorX, doorY));
             openedDoor.setOpened(true);
-            for (int i = 1; i <= itemsList.size(); i++) {
-                if (map.getCell(28, i).getObject().getTileName().equals("exitkey")) {
-                    map.getCell(28, i).setObject(null);
-                    itemsList.remove("exitkey");
-                }
-            }
+            removeKeyFromInventory("exitkey");
         }
     }
 
