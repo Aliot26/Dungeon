@@ -1,7 +1,7 @@
 package com.codecool.quest.logic;
 
 public class Player extends Actor {
-    private String namePlayer;
+    private static String namePlayer;
 
     public String getNamePlayer() {
         return namePlayer;
