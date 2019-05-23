@@ -17,6 +17,12 @@ public abstract class Actor implements Drawable {
             Cell nextCell = cell.getNeighbor(dx, dy);
             if (nextCell.isEmpty()) {
                 move(nextCell);
+                if (nextCell.getType().equals(CellType.EMPTY)) {
+                    MapLoader.currentMap = "/map2.txt";
+                    GameMap.isLevelFinished = true;
+
+                }
+
             }
         }
     }
@@ -51,6 +57,4 @@ public abstract class Actor implements Drawable {
     public int getY() {
         return cell.getY();
     }
-
-
 }

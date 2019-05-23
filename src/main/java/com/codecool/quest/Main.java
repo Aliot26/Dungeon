@@ -17,9 +17,10 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Main extends Application {
-    GameMap map = MapLoader.loadMap();
+    GameMap map = MapLoader.loadMap(MapLoader.currentMap);
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
@@ -92,6 +93,41 @@ public class Main extends Application {
                     refresh();
                     break;
             }
+        switch (keyEvent.getCode()) {
+            // Skeleton move while pressing the arrow
+            case UP:
+                map.getPlayer().move(0, -1);
+                openDoor(0, -1);
+                moveSkeleton();
+                handlePickupButton();
+                refresh();
+                checkLevelFinished();
+                break;
+            case DOWN:
+                map.getPlayer().move(0, 1);
+                openDoor(0, 1);
+                moveSkeleton();
+                handlePickupButton();
+                refresh();
+                checkLevelFinished();
+                break;
+            case LEFT:
+                map.getPlayer().move(-1, 0);
+                openDoor(-1, 0);
+                moveSkeleton();
+                handlePickupButton();
+                refresh();
+                checkLevelFinished();
+                break;
+            case RIGHT:
+                map.getPlayer().move(1, 0);
+                openDoor(1, 0);
+                moveSkeleton();
+                handlePickupButton();
+                refresh();
+                checkLevelFinished();
+
+                break;
         }
     }
 
@@ -178,7 +214,8 @@ public class Main extends Application {
     }
 
     private void handlePickupButton() {
-        if (map.getPlayer().getCell().hasItem()) {
+        if (map.getPlayer().getCell().hasItem()
+                && !map.getPlayer().getCell().getObject().getTileName().equals(CellType.OPEN_DOOR.getTileName()) ){
             pickupButton.setVisible(true);
             pickupButton.setOnAction(event -> {
                 itemsList.add(map.getPlayer().getCell().getObject().getTileName());
@@ -186,21 +223,67 @@ public class Main extends Application {
 
                 switch (objectName) {
                     case "sword":
-                        new Sword(map.getCell(28, itemsList.size())).setInInventory(true);
+                        new Sword(map.getCell(28, itemsList.size()));
                         break;
                     case "key":
                         new Key(map.getCell(28, itemsList.size()));
                         break;
+                    case "exitkey":
+                        new ExitKey(map.getCell(28, itemsList.size()));
+                        break;
+
                 }
                 map.getPlayer().getCell().setObject(null);
                 pickupButton.setVisible(false);
                 refresh();
             });
-        }
-        else {
+        } else {
             pickupButton.setVisible(false);
         }
     }
+
+    public void openDoor(int x, int y) {
+        if (itemsList.contains("key")
+                && map.getPlayer().getCell().getNeighbor(x, y).getTileName().equals(CellType.DOOR.getTileName())) {
+            int doorX = map.getPlayer().getCell().getNeighbor(x, y).getX();
+            int doorY = map.getPlayer().getCell().getNeighbor(x, y).getY();
+            map.getPlayer().getCell().getNeighbor(x, y).setType(CellType.FLOOR);
+            map.getPlayer().getCell().getNeighbor(x, y).setObject(null);
+            Door openedDoor = new Door(map.getCell(doorX, doorY));
+            openedDoor.setOpened(true);
+            for (int i = 1; i <= itemsList.size(); i++) {
+                if (map.getCell(28, i).getObject().getTileName().equals("key")) {
+                    map.getCell(28, i).setObject(null);
+                    itemsList.remove("key");
+                }
+            }
+        } else if (itemsList.contains("exitkey")
+                && map.getPlayer().getCell().getNeighbor(x, y).getTileName().equals(CellType.EXITDOOR.getTileName())) {
+            int doorX = map.getPlayer().getCell().getNeighbor(x, y).getX();
+            int doorY = map.getPlayer().getCell().getNeighbor(x, y).getY();
+            map.getPlayer().getCell().getNeighbor(x, y).setType(CellType.FLOOR);
+            map.getPlayer().getCell().getNeighbor(x, y).setObject(null);
+            ExitDoor openedDoor = new ExitDoor(map.getCell(doorX, doorY));
+            openedDoor.setOpened(true);
+            for (int i = 1; i <= itemsList.size(); i++) {
+                if (map.getCell(28, i).getObject().getTileName().equals("exitkey")) {
+                    map.getCell(28, i).setObject(null);
+                    itemsList.remove("exitkey");
+                }
+            }
+        }
+    }
+
+    private void checkLevelFinished() {
+        if (GameMap.isLevelFinished) {
+            map = MapLoader.loadMap(MapLoader.currentMap);
+            refresh();
+
+
+        }
+    }
+
+
 
     private void refresh() {
         if (gameContinues) {

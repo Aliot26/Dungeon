@@ -8,6 +8,7 @@ public class GameMap {
     private Cell[][] cells;
     private Player player;
     private ArrayList<Skeleton> skeletons = new ArrayList<>();
+    public static boolean isLevelFinished;
 
     public GameMap(int width, int height) {
         this.width = width;
@@ -46,5 +47,13 @@ public class GameMap {
 
     public void setSkeletons(Skeleton skeleton) {
         skeletons.add(skeleton);
+    }
+
+    public boolean isLevelFinished() {
+        return isLevelFinished;
+    }
+
+    public void setLevelFinished(boolean levelFinished) {
+        isLevelFinished = levelFinished;
     }
 }

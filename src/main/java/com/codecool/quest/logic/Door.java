@@ -6,6 +6,10 @@ public class Door extends Item {
         super(cell);
     }
 
+    public void setOpened(boolean opened) {
+        isOpened = opened;
+    }
+
     @Override
     public boolean isInInventory() {
         return false;
@@ -20,6 +24,7 @@ public class Door extends Item {
         return isOpened;
     }
 
+
     public void openDoor(Key key) {
         if (key.getIsInInventory()) {
             isOpened = true;
@@ -29,6 +34,9 @@ public class Door extends Item {
 
     @Override
     public String getTileName() {
+        if (isOpened) {
+            return "opened_door";
+        }
         return "door";
     }
 }
