@@ -57,7 +57,7 @@ public class Main extends Application {
 
         Optional<String> result = dialog.showAndWait();
 
-        if (result.isPresent() && result.get().trim().length()!=0) {
+        if (result.isPresent() && result.get().trim().length() != 0) {
             map.getPlayer().setNamePlayer(result.get());
             System.out.println("Your name: " + result.get());
         }
@@ -129,182 +129,183 @@ public class Main extends Application {
         }
     }
 
-        private void moveSkeletons () {
-            for (Skeleton skeleton : map.getSkeletons()) {
-                if (skeleton.canMove()) {
-                    int randomNumber = (int) Math.floor(Math.random() * 4);
-                    switch (randomNumber) {
-                        case 0:
-                            skeleton.move(0, -1);
-                            break;
-                        case 1:
-                            skeleton.move(0, 1);
-                            break;
-                        case 2:
-                            skeleton.move(-1, 0);
-                            break;
-                        case 3:
-                            skeleton.move(1, 0);
-                            break;
-                        default:
-                            throw new RuntimeException("Number must be from 0 to 3");
-                    }
-                } else {
-                    skeleton.canMove(true);
+    private void moveSkeletons() {
+        for (Skeleton skeleton : map.getSkeletons()) {
+            if (skeleton.canMove()) {
+                int randomNumber = (int) Math.floor(Math.random() * 4);
+                switch (randomNumber) {
+                    case 0:
+                        skeleton.move(0, -1);
+                        break;
+                    case 1:
+                        skeleton.move(0, 1);
+                        break;
+                    case 2:
+                        skeleton.move(-1, 0);
+                        break;
+                    case 3:
+                        skeleton.move(1, 0);
+                        break;
+                    default:
+                        throw new RuntimeException("Number must be from 0 to 3");
                 }
-
-                int playerX = map.getPlayer().getX();
-                int playerY = map.getPlayer().getY();
-                int skeletonX = skeleton.getX();
-                int skeletonY = skeleton.getY();
-
-                if (skeleton.ifNextToPlayer(playerX, playerY, skeletonX, skeletonY)) {
-                    skeleton.canMove(false);
-                }
+            } else {
+                skeleton.canMove(true);
             }
-        }
 
-        private void handleCollision () {
             int playerX = map.getPlayer().getX();
             int playerY = map.getPlayer().getY();
+            int skeletonX = skeleton.getX();
+            int skeletonY = skeleton.getY();
 
-            for (Skeleton skeleton : map.getSkeletons()) {
-                int skeletonX = skeleton.getX();
-                int skeletonY = skeleton.getY();
+            if (skeleton.ifNextToPlayer(playerX, playerY, skeletonX, skeletonY)) {
+                skeleton.canMove(false);
+            }
+        }
+    }
 
-                if (playerX == skeletonX && playerY == skeletonY) {
-                    utils.playSound(utils.getCollisionSoundPath());
-                    addSkeletonDmg(skeleton);
-                    addPlayerDmg();
+    private void handleCollision() {
+        int playerX = map.getPlayer().getX();
+        int playerY = map.getPlayer().getY();
 
-                    if (skeleton.getHealth() <= 0) {
-                        map.getSkeletons().remove(skeleton);
+        for (Skeleton skeleton : map.getSkeletons()) {
+            int skeletonX = skeleton.getX();
+            int skeletonY = skeleton.getY();
+
+            if (playerX == skeletonX && playerY == skeletonY) {
+                utils.playSound(utils.getCollisionSoundPath());
+                addSkeletonDmg(skeleton);
+                addPlayerDmg();
+
+                if (skeleton.getHealth() <= 0) {
+                    map.getSkeletons().remove(skeleton);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void addSkeletonDmg(Skeleton skeleton) {
+        // skeleton dmg 1-10
+        int dmg = (int) Math.floor(Math.random() * 10) + 1;
+        skeleton.setHealth(skeleton.getHealth() - dmg);
+
+        // I cannot check whether player has sword in inventory.... :(
+    }
+
+    private void addPlayerDmg() {
+        // player dmg 1-3
+        int dmg = (int) Math.floor(Math.random() * 3) + 1;
+        int healthBeforeHit = map.getPlayer().getHealth();
+
+        map.getPlayer().setHealth(healthBeforeHit - dmg);
+        healthLabel.setText("" + map.getPlayer().getHealth());
+
+        // Lose condition
+        if (map.getPlayer().getHealth() <= 0) {
+            utils.playSound(utils.getGameOverSoundPath());
+            healthLabel.setFont(new Font(20));
+            healthLabel.setText("Game over");
+            gameContinues = false;
+        }
+    }
+
+    private void handlePickupButton() {
+        if (map.getPlayer().getCell().hasItem()
+                && !map.getPlayer().getCell().getObject().getTileName().equals(CellType.OPEN_DOOR.getTileName())) {
+            pickupButton.setVisible(true);
+            pickupButton.setOnAction(event -> {
+                itemsList.add(map.getPlayer().getCell().getObject().getTileName());
+                String objectName = map.getPlayer().getCell().getObject().getTileName();
+
+                switch (objectName) {
+                    case "sword":
+                        new Sword(map.getCell(28, itemsList.size()));
                         break;
-                    }
+                    case "key":
+                        new Key(map.getCell(28, itemsList.size()));
+                        break;
+                    case "exitkey":
+                        new ExitKey(map.getCell(28, itemsList.size()));
+                        break;
+
                 }
-            }
-        }
-
-        private void addSkeletonDmg (Skeleton skeleton){
-            // skeleton dmg 1-10
-            int dmg = (int) Math.floor(Math.random() * 10) + 1;
-            skeleton.setHealth(skeleton.getHealth() - dmg);
-
-            // I cannot check whether player has sword in inventory.... :(
-        }
-
-        private void addPlayerDmg () {
-            // player dmg 1-3
-            int dmg = (int) Math.floor(Math.random() * 3) + 1;
-            int healthBeforeHit = map.getPlayer().getHealth();
-
-            map.getPlayer().setHealth(healthBeforeHit - dmg);
-            healthLabel.setText("" + map.getPlayer().getHealth());
-
-            // Lose condition
-            if (map.getPlayer().getHealth() <= 0) {
-                utils.playSound(utils.getGameOverSoundPath());
-                healthLabel.setFont(new Font(20));
-                healthLabel.setText("Game over");
-                gameContinues = false;
-            }
-        }
-
-        private void handlePickupButton () {
-            if (map.getPlayer().getCell().hasItem()
-                    && !map.getPlayer().getCell().getObject().getTileName().equals(CellType.OPEN_DOOR.getTileName())) {
-                pickupButton.setVisible(true);
-                pickupButton.setOnAction(event -> {
-                    itemsList.add(map.getPlayer().getCell().getObject().getTileName());
-                    String objectName = map.getPlayer().getCell().getObject().getTileName();
-
-                    switch (objectName) {
-                        case "sword":
-                            new Sword(map.getCell(28, itemsList.size()));
-                            break;
-                        case "key":
-                            new Key(map.getCell(28, itemsList.size()));
-                            break;
-                        case "exitkey":
-                            new ExitKey(map.getCell(28, itemsList.size()));
-                            break;
-
-                    }
-                    map.getPlayer().getCell().setObject(null);
-                    pickupButton.setVisible(false);
-                    refresh();
-                });
-            } else {
+                map.getPlayer().getCell().setObject(null);
                 pickupButton.setVisible(false);
-            }
-        }
-
-        public void openDoor ( int x, int y){
-            if (itemsList.contains("key")
-                    && map.getPlayer().getCell().getNeighbor(x, y).getTileName().equals(CellType.DOOR.getTileName())) {
-                int doorX = map.getPlayer().getCell().getNeighbor(x, y).getX();
-                int doorY = map.getPlayer().getCell().getNeighbor(x, y).getY();
-                map.getPlayer().getCell().getNeighbor(x, y).setType(CellType.FLOOR);
-                map.getPlayer().getCell().getNeighbor(x, y).setObject(null);
-                Door openedDoor = new Door(map.getCell(doorX, doorY));
-                openedDoor.setOpened(true);
-                for (int i = 1; i <= itemsList.size(); i++) {
-                    if (map.getCell(28, i).getObject().getTileName().equals("key")) {
-                        map.getCell(28, i).setObject(null);
-                        itemsList.remove("key");
-                    }
-                }
-            } else if (itemsList.contains("exitkey")
-                    && map.getPlayer().getCell().getNeighbor(x, y).getTileName().equals(CellType.EXITDOOR.getTileName())) {
-                int doorX = map.getPlayer().getCell().getNeighbor(x, y).getX();
-                int doorY = map.getPlayer().getCell().getNeighbor(x, y).getY();
-                map.getPlayer().getCell().getNeighbor(x, y).setType(CellType.FLOOR);
-                map.getPlayer().getCell().getNeighbor(x, y).setObject(null);
-                ExitDoor openedDoor = new ExitDoor(map.getCell(doorX, doorY));
-                openedDoor.setOpened(true);
-                for (int i = 1; i <= itemsList.size(); i++) {
-                    if (map.getCell(28, i).getObject().getTileName().equals("exitkey")) {
-                        map.getCell(28, i).setObject(null);
-                        itemsList.remove("exitkey");
-                    }
-                }
-            }
-        }
-
-        private void checkLevelFinished () {
-            if (GameMap.isLevelFinished) {
-                map = MapLoader.loadMap(MapLoader.currentMap);
                 refresh();
-                GameMap.isLevelFinished = false;
-
-
-            }
+            });
+        } else {
+            pickupButton.setVisible(false);
         }
+    }
 
-
-        private void refresh () {
-            if (gameContinues) {
-                context.setFill(Color.BLACK);
-                context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                for (int x = 0; x < map.getWidth(); x++) {
-                    for (int y = 0; y < map.getHeight(); y++) {
-                        Cell cell = map.getCell(x, y);
-                        if (cell.getActor() != null) {
-                            Tiles.drawTile(context, cell.getActor(), x, y);
-                        } else if (cell.getObject() != null) {
-                            Tiles.drawTile(context, cell.getObject(), x, y);
-
-                } else {
-                    Tiles.drawTile(context, cell, x, y);
+    public void openDoor(int x, int y) {
+        if (itemsList.contains("key")
+                && map.getPlayer().getCell().getNeighbor(x, y).getTileName().equals(CellType.DOOR.getTileName())) {
+            int doorX = map.getPlayer().getCell().getNeighbor(x, y).getX();
+            int doorY = map.getPlayer().getCell().getNeighbor(x, y).getY();
+            map.getPlayer().getCell().getNeighbor(x, y).setType(CellType.FLOOR);
+            map.getPlayer().getCell().getNeighbor(x, y).setObject(null);
+            Door openedDoor = new Door(map.getCell(doorX, doorY));
+            openedDoor.setOpened(true);
+            for (int i = 1; i <= itemsList.size(); i++) {
+                if (map.getCell(28, i).getObject().getTileName().equals("key")) {
+                    map.getCell(28, i).setObject(null);
+                    itemsList.remove("key");
                 }
             }
-            healthLabel.setText("" + map.getPlayer().getHealth());
-            if (map.getPlayer().getNamePlayer() != null) {
-                nameLabel.setText("" + map.getPlayer().getNamePlayer());
-            }else{
-                nameLabel.setText("No name");
+        } else if (itemsList.contains("exitkey")
+                && map.getPlayer().getCell().getNeighbor(x, y).getTileName().equals(CellType.EXITDOOR.getTileName())) {
+            int doorX = map.getPlayer().getCell().getNeighbor(x, y).getX();
+            int doorY = map.getPlayer().getCell().getNeighbor(x, y).getY();
+            map.getPlayer().getCell().getNeighbor(x, y).setType(CellType.FLOOR);
+            map.getPlayer().getCell().getNeighbor(x, y).setObject(null);
+            ExitDoor openedDoor = new ExitDoor(map.getCell(doorX, doorY));
+            openedDoor.setOpened(true);
+            for (int i = 1; i <= itemsList.size(); i++) {
+                if (map.getCell(28, i).getObject().getTileName().equals("exitkey")) {
+                    map.getCell(28, i).setObject(null);
+                    itemsList.remove("exitkey");
+                }
             }
         }
+    }
 
+    private void checkLevelFinished() {
+        if (GameMap.isLevelFinished) {
+            map = MapLoader.loadMap(MapLoader.currentMap);
+            refresh();
+            GameMap.isLevelFinished = false;
+
+
+        }
+    }
+
+
+    private void refresh() {
+        if (gameContinues) {
+            context.setFill(Color.BLACK);
+            context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            for (int x = 0; x < map.getWidth(); x++) {
+                for (int y = 0; y < map.getHeight(); y++) {
+                    Cell cell = map.getCell(x, y);
+                    if (cell.getActor() != null) {
+                        Tiles.drawTile(context, cell.getActor(), x, y);
+                    } else if (cell.getObject() != null) {
+                        Tiles.drawTile(context, cell.getObject(), x, y);
+
+                    } else {
+                        Tiles.drawTile(context, cell, x, y);
+                    }
+                }
+                healthLabel.setText("" + map.getPlayer().getHealth());
+                if (map.getPlayer().getNamePlayer() != null) {
+                    nameLabel.setText("" + map.getPlayer().getNamePlayer());
+                } else {
+                    nameLabel.setText("No name");
+                }
+            }
+
+        }
     }
 }
