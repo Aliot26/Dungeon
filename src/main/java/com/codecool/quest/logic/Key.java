@@ -16,15 +16,7 @@ public class Key extends Item {
         super(cell);
     }
 
-    @Override
-    public boolean isInInventory() {
-        return false;
-    }
 
-    @Override
-    public void setInInventory(boolean inInventory) {
-
-    }
 
     @Override
     public String getTileName() {

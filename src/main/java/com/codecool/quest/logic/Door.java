@@ -10,15 +10,7 @@ public class Door extends Item {
         isOpened = opened;
     }
 
-    @Override
-    public boolean isInInventory() {
-        return false;
-    }
 
-    @Override
-    public void setInInventory(boolean inInventory) {
-
-    }
 
     public boolean getIsOpened() {
         return isOpened;
