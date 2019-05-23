@@ -9,6 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -22,6 +23,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
@@ -32,8 +34,6 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Label nameLabel = new Label();
     Button pickupButton = new Button("Pick up item");
-
-
 
 
     List<String> itemsList = new ArrayList<>();
@@ -49,14 +49,17 @@ public class Main extends Application {
         ui.setPadding(new Insets(10));
 
 
-        final Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(primaryStage);
-        VBox dialogVbox = new VBox(20);
-        dialogVbox.getChildren().add(new Text("Input form"));
-        Scene dialogScene = new Scene(dialogVbox, 300, 200);
-        dialog.setScene(dialogScene);
-        dialog.show();
+        TextInputDialog dialog = new TextInputDialog("Admin");
+        dialog.setTitle("Text Input Dialog");
+        dialog.setHeaderText("Name of the player");
+        dialog.setContentText("Please enter your name:");
+
+        Optional<String> result = dialog.showAndWait();
+
+        if (result.isPresent()) {
+            map.getPlayer().getCell()
+            System.out.println("Your name: " + result.get());
+        }
 
 
         ui.add(new Label("Name: "), 0, 0);
@@ -202,6 +205,7 @@ public class Main extends Application {
                 }
             }
             healthLabel.setText("" + map.getPlayer().getHealth());
+            nameLabel.setText("" +  );
         }
 
     }
