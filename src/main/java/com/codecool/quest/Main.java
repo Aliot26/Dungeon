@@ -251,6 +251,7 @@ public class Main extends Application {
             if (GameMap.isLevelFinished) {
                 map = MapLoader.loadMap(MapLoader.currentMap);
                 refresh();
+                GameMap.isLevelFinished = false;
 
 
             }
