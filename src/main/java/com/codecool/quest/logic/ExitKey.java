@@ -1,6 +1,6 @@
 package com.codecool.quest.logic;
 
-public class Key extends Item {
+public class ExitKey extends Item {
 
     private boolean isInInventory;
 
@@ -12,7 +12,7 @@ public class Key extends Item {
         isInInventory = inInventory;
     }
 
-    public Key(Cell cell) {
+    public ExitKey(Cell cell) {
         super(cell);
     }
 
@@ -28,6 +28,6 @@ public class Key extends Item {
 
     @Override
     public String getTileName() {
-        return "key";
+        return "exitkey";
     }
 }

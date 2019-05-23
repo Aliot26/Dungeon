@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ActorTest {
-        private GameMap gameMap = MapLoader.loadMap();
+        private GameMap gameMap = MapLoader.loadMap(MapLoader.currentMap);
 
     @Test
     void moveUpdatesCells() {

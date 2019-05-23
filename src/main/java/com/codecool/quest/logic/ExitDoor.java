@@ -1,13 +1,10 @@
 package com.codecool.quest.logic;
 
-public class Door extends Item {
+public class ExitDoor extends Item {
     private boolean isOpened;
-    public Door(Cell cell) {
-        super(cell);
-    }
 
-    public void setOpened(boolean opened) {
-        isOpened = opened;
+    public ExitDoor(Cell cell) {
+        super(cell);
     }
 
     @Override
@@ -20,24 +17,27 @@ public class Door extends Item {
 
     }
 
+    public void setOpened(boolean opened) {
+        isOpened = opened;
+    }
+
     public boolean getIsOpened() {
         return isOpened;
     }
 
 
-    public void openDoor(Key key) {
-        if (key.getIsInInventory()) {
+    public void openDoor(ExitKey exitKey) {
+        if (exitKey.getIsInInventory()) {
             isOpened = true;
-            key.setIsInInventory(false);
+            exitKey.setIsInInventory(false);
         }
     }
 
     @Override
     public String getTileName() {
         if (isOpened) {
-            return "opened_door";
+            return "opened_exitdoor";
         }
-        return "door";
+        return "exitdoor";
     }
 }
-

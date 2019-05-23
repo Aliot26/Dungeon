@@ -29,7 +29,7 @@ public abstract class Item implements Drawable {
     }
 
     private boolean isOnMap (int dx, int dy){
-        return dx + this.getX() < MapLoader.loadMap().getWidth() && dy + this.getY() < MapLoader.loadMap().getHeight();
+        return dx + this.getX() < MapLoader.loadMap(MapLoader.currentMap).getWidth() && dy + this.getY() < MapLoader.loadMap(MapLoader.currentMap).getHeight();
     }
 
 
@@ -44,5 +44,9 @@ public abstract class Item implements Drawable {
     public int getY () {
         return cell.getY();
     }
+
+    abstract public boolean isInInventory();
+
+    abstract public void setInInventory(boolean inInventory);
 
 }

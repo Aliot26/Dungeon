@@ -56,6 +56,13 @@ public class Cell implements Drawable {
         return y;
     }
 
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
 
     public boolean isEmpty() {
         if (gameMap.getPlayer().getNamePlayer().equals("Admin")) {
@@ -68,8 +75,7 @@ public class Cell implements Drawable {
 
     }
 
+    public boolean hasItem() {return this.getObject() != null;}}
 
-    public boolean hasItem() {
-        return this.getObject() != null;
-    }
-}
+
+
