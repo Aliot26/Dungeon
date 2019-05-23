@@ -183,6 +183,7 @@ public class Main extends Application {
 
                 if (skeleton.getHealth() <= 0) {
                     map.getSkeletons().remove(skeleton);
+                    new Skull(map.getCell(skeletonX, skeletonY));
                     break;
                 }
             }
