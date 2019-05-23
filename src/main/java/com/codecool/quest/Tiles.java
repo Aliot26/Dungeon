@@ -51,6 +51,7 @@ public class Tiles {
         tileMap.put("frame6", new Tile(18, 2));
         tileMap.put("frame7", new Tile(19, 2));
         tileMap.put("frame8", new Tile(20, 2));
+        tileMap.put("exit", new Tile (3,0));
 
 
     }

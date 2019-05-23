@@ -65,19 +65,21 @@ public class Cell implements Drawable {
     }
 
     public boolean isEmpty() {
-        if (gameMap.getPlayer().getNamePlayer().equals("Admin")) {
-            return !(this.getType().equals(CellType.DOOR));
-        } else {
             return (!(this.getType().equals(CellType.WALL))
                     && !(this.getType().equals(CellType.DOOR))
                     && !(this.getType().equals(CellType.TREE))
                     && !(this.getType().equals(CellType.GRAVE))
                     && !(this.getType().equals(CellType.EXITDOOR)));
-        }
+
 
     }
+    public GameMap getGameMap() {
+        return gameMap;
+    }
 
-    public boolean hasItem() {return this.getObject() != null;}}
+    public boolean hasItem() {return this.getObject() != null;}
+
+    public boolean isWater() {return (this.getType().equals(CellType.WATER) || this.getType().equals(CellType.WATER1)); }}
 
 
 

@@ -37,6 +37,8 @@ public class GameMap {
         return width;
     }
 
+
+
     public int getHeight() {
         return height;
     }

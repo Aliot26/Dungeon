@@ -22,7 +22,8 @@ public enum CellType {
     FRAME5("frame5"),
     FRAME6("frame6"),
     FRAME7("frame7"),
-    FRAME8("frame8");
+    FRAME8("frame8"),
+    EXIT("exit");
 
 
 

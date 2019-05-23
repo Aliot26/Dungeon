@@ -93,6 +93,7 @@ public class Main extends Application {
                     openDoor(0, -1);
                     moveSkeletons();
                     handleCollision();
+                    checkGameOver();
                     handlePickupButton();
                     refresh();
                     checkLevelFinished();
@@ -102,6 +103,7 @@ public class Main extends Application {
                     openDoor(0, 1);
                     moveSkeletons();
                     handleCollision();
+                    checkGameOver();
                     handlePickupButton();
                     refresh();
                     checkLevelFinished();
@@ -111,6 +113,7 @@ public class Main extends Application {
                     openDoor(-1, 0);
                     moveSkeletons();
                     handleCollision();
+                    checkGameOver();
                     handlePickupButton();
                     refresh();
                     checkLevelFinished();
@@ -120,6 +123,7 @@ public class Main extends Application {
                     openDoor(1, 0);
                     moveSkeletons();
                     handleCollision();
+                    checkGameOver();
                     handlePickupButton();
                     refresh();
                     checkLevelFinished();
@@ -200,8 +204,9 @@ public class Main extends Application {
 
         map.getPlayer().setHealth(healthBeforeHit - dmg);
         healthLabel.setText("" + map.getPlayer().getHealth());
+    }
 
-        // Lose condition
+    public void checkGameOver() {
         if (map.getPlayer().getHealth() <= 0) {
             utils.playSound(utils.getGameOverSoundPath());
             healthLabel.setFont(new Font(20));

@@ -101,6 +101,9 @@ public class MapLoader {
                         case '8':
                             cell.setType(CellType.FRAME8);
                             break;
+                        case 'F':
+                            cell.setType(CellType.EXIT);
+                            break;
 
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
