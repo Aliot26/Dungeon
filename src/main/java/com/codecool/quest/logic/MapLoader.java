@@ -4,8 +4,11 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 public class MapLoader {
-    public static GameMap loadMap() {
-        InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
+    public static String currentMap = "/map.txt";
+
+
+    public static GameMap loadMap(String currentMap) {
+        InputStream is = MapLoader.class.getResourceAsStream(currentMap);
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
@@ -66,6 +69,39 @@ public class MapLoader {
                             cell.setType(CellType.DOOR);
                             new Door(cell);
                             break;
+                        case '*':
+                            cell.setType(CellType.EXITDOOR);
+                            new ExitDoor(cell);
+                            break;
+                        case '=':
+                            cell.setType(CellType.FLOOR);
+                            new ExitKey(cell);
+                            break;
+                        case '1':
+                            cell.setType(CellType.FRAME1);
+                            break;
+                        case '2':
+                            cell.setType(CellType.FRAME2);
+                            break;
+                        case '3':
+                            cell.setType(CellType.FRAME3);
+                            break;
+                        case '4':
+                            cell.setType(CellType.FRAME4);
+                            break;
+                        case '5':
+                            cell.setType(CellType.FRAME5);
+                            break;
+                        case '6':
+                            cell.setType(CellType.FRAME6);
+                            break;
+                        case '7':
+                            cell.setType(CellType.FRAME7);
+                            break;
+                        case '8':
+                            cell.setType(CellType.FRAME8);
+                            break;
+
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                     }
@@ -74,5 +110,14 @@ public class MapLoader {
         }
         return map;
     }
+
+    public static String getCurrentMap() {
+        return currentMap;
+    }
+
+    public void setCurrentMap(String currentMap) {
+        this.currentMap = currentMap;
+    }
+
 
 }

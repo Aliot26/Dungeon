@@ -11,8 +11,20 @@ public enum CellType {
     SKULL("skull"),
     GRAVE("grave"),
     DOOR("door"),
+    EXITDOOR("exitdoor"),
     OPEN_DOOR("opened_door"),
-    GRASS("grass");
+    OPEN_EXIT("opened_exitdoor"),
+    GRASS("grass"),
+    FRAME1("frame1"),
+    FRAME2("frame2"),
+    FRAME3("frame3"),
+    FRAME4("frame4"),
+    FRAME5("frame5"),
+    FRAME6("frame6"),
+    FRAME7("frame7"),
+    FRAME8("frame8");
+
+
 
     private final String tileName;
 

@@ -34,9 +34,11 @@ public class Cell implements Drawable {
         this.object = object;
     }
 
+
     public Item getObject() {
         return object;
     }
+
 
 
     public Cell getNeighbor(int dx, int dy) {
@@ -60,9 +62,14 @@ public class Cell implements Drawable {
     public boolean isEmpty() {
         return this.getActor() == null
                 && !(this.getType().equals(CellType.WALL))
-                && !(this.getType().equals(CellType.DOOR));
+                && !(this.getType().equals(CellType.DOOR))
+                && !(this.getType().equals(CellType.EXITDOOR))
+                && !(this.getType().equals(CellType.TREE))
+                && !(this.getType().equals(CellType.GRAVE));
     }
 
 
-    public boolean hasItem() {return this.getObject() != null;}
-}
+    public boolean hasItem() {return this.getObject() != null;}}
+
+
+

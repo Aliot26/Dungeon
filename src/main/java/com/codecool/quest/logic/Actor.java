@@ -17,6 +17,12 @@ public abstract class Actor implements Drawable {
             Cell nextCell = cell.getNeighbor(dx, dy);
             if (nextCell.isEmpty()) {
                 move(nextCell);
+                if (nextCell.getType().equals(CellType.EMPTY)) {
+                    MapLoader.currentMap = "/map2.txt";
+                    GameMap.isLevelFinished = true;
+
+                }
+
             }
         }
     }
@@ -29,7 +35,7 @@ public abstract class Actor implements Drawable {
 
 
     private boolean isOnMap(int dx, int dy) {
-        return dx + this.getX() < MapLoader.loadMap().getWidth() && dy + this.getY() < MapLoader.loadMap().getHeight();
+        return dx + this.getX() < MapLoader.loadMap(MapLoader.currentMap).getWidth() && dy + this.getY() < MapLoader.loadMap(MapLoader.currentMap).getHeight();
     }
 
     public int getHealth() {

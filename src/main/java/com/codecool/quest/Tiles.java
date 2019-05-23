@@ -32,6 +32,7 @@ public class Tiles {
         tileMap.put("skeleton", new Tile(29, 6));
         tileMap.put("sword", new Tile(0, 30));
         tileMap.put("key", new Tile(16,23));
+        tileMap.put("exitkey", new Tile(17,23));
         tileMap.put("door", new Tile(7, 9));
         tileMap.put("opened_door", new Tile(6, 9));
         tileMap.put("water", new Tile(8, 4));
@@ -40,6 +41,16 @@ public class Tiles {
         tileMap.put("skull", new Tile (0, 15));
         tileMap.put("grass", new Tile (5, 0));
         tileMap.put("grave", new Tile (1, 14));
+        tileMap.put("exitdoor", new Tile(1, 9));
+        tileMap.put("opened_exitdoor", new Tile(2, 9));
+        tileMap.put("frame1", new Tile( 18,0));
+        tileMap.put("frame2", new Tile(19, 0));
+        tileMap.put("frame3", new Tile(20, 0));
+        tileMap.put("frame4", new Tile(18, 1));
+        tileMap.put("frame5", new Tile(20, 1));
+        tileMap.put("frame6", new Tile(18, 2));
+        tileMap.put("frame7", new Tile(19, 2));
+        tileMap.put("frame8", new Tile(20, 2));
 
 
     }

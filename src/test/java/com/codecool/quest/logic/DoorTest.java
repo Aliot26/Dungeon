@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class DoorTest {
-    private GameMap gameMap = MapLoader.loadMap();
+    private GameMap gameMap = MapLoader.loadMap(MapLoader.currentMap);
 
     @Test
     void tryToMoveToClosedDoorCell() {
