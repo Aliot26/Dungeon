@@ -56,8 +56,8 @@ public class Main extends Application {
 
         Optional<String> result = dialog.showAndWait();
 
-        if (result.isPresent()) {
-            map.getPlayer().getCell()
+        if (result.isPresent() && result.get().trim().length()!=0) {
+            map.getPlayer().setNamePlayer(result.get());
             System.out.println("Your name: " + result.get());
         }
 
@@ -205,7 +205,11 @@ public class Main extends Application {
                 }
             }
             healthLabel.setText("" + map.getPlayer().getHealth());
-            nameLabel.setText("" +  );
+            if (map.getPlayer().getNamePlayer() != null) {
+                nameLabel.setText("" + map.getPlayer().getNamePlayer());
+            }else{
+                nameLabel.setText("No name");
+            }
         }
 
     }

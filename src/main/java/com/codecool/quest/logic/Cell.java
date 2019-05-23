@@ -58,11 +58,18 @@ public class Cell implements Drawable {
 
 
     public boolean isEmpty() {
-        return this.getActor() == null
-                && !(this.getType().equals(CellType.WALL))
-                && !(this.getType().equals(CellType.DOOR));
+        if (gameMap.getPlayer().getNamePlayer().equals("Admin")) {
+            return !(this.getType().equals(CellType.DOOR));
+        } else {
+            return this.getActor() == null
+                    && !(this.getType().equals(CellType.WALL))
+                    && !(this.getType().equals(CellType.DOOR));
+        }
+
     }
 
 
-    public boolean hasItem() {return this.getObject() != null;}
+    public boolean hasItem() {
+        return this.getObject() != null;
+    }
 }
