@@ -17,6 +17,16 @@ public class ExitKey extends Item {
     }
 
     @Override
+    public boolean isInInventory() {
+        return false;
+    }
+
+    @Override
+    public void setInInventory(boolean inInventory) {
+
+    }
+
+    @Override
     public String getTileName() {
         return "exitkey";
     }

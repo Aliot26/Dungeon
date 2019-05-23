@@ -7,6 +7,16 @@ public class ExitDoor extends Item {
         super(cell);
     }
 
+    @Override
+    public boolean isInInventory() {
+        return false;
+    }
+
+    @Override
+    public void setInInventory(boolean inInventory) {
+
+    }
+
     public void setOpened(boolean opened) {
         isOpened = opened;
     }
