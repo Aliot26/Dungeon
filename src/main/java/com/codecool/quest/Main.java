@@ -217,7 +217,8 @@ public class Main extends Application {
 
     private void handlePickupButton() {
         if (map.getPlayer().getCell().hasItem()
-                && !map.getPlayer().getCell().getObject().getTileName().equals(CellType.OPEN_DOOR.getTileName())) {
+                && !map.getPlayer().getCell().getObject().getTileName().equals(CellType.OPEN_DOOR.getTileName())
+                && !map.getPlayer().getCell().getObject().getTileName().equals(CellType.OPEN_EXIT.getTileName())) {
             pickupButton.setVisible(true);
             pickupButton.setOnAction(event -> {
                 itemsList.add(map.getPlayer().getCell().getObject().getTileName());
