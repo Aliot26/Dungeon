@@ -68,9 +68,11 @@ public class Cell implements Drawable {
         if (gameMap.getPlayer().getNamePlayer().equals("Admin")) {
             return !(this.getType().equals(CellType.DOOR));
         } else {
-            return this.getActor() == null
-                    && !(this.getType().equals(CellType.WALL))
-                    && !(this.getType().equals(CellType.DOOR));
+            return (!(this.getType().equals(CellType.WALL))
+                    && !(this.getType().equals(CellType.DOOR))
+                    && !(this.getType().equals(CellType.TREE))
+                    && !(this.getType().equals(CellType.GRAVE))
+                    && !(this.getType().equals(CellType.EXITDOOR)));
         }
 
     }
