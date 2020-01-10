@@ -1,25 +1,20 @@
 # Codecool Quest
 
-This is a simple tile-based RPG game.
-
-## Opening the project
-
-Open the project in IntelliJ IDEA. This is a Maven project, so you will need to open `pom.xml`.
-
+This is a simple tile-based RPG game. This is the project created during my education in Codecool. 
+The start code of the project was created by Codecool mentor.
 The project is using JavaFX, and should work with Oracle's Java 8.
 
-## Architecture
+## Team members:
+- https://github.com/KacperMitkowski
+- https://github.com/Aliot26
+- https://github.com/wickedkat 
 
-The project is meant to teach the concept of **layer separation**. All of the game logic (that is, player movement, game rules, and so on), is in the `logic` package, completely independent of user interface code. In principle, you could implement a completely different interface (terminal, web, Virtual Reality...) for the same logic code.
+## Screenshots:
+![ScreenShot](https://github.com/Aliot26/Dungeon/blob/master/src/main/resources/screenshots/2.png?raw=true)
 
-Thanks to the separation, we are also able to easily write **unit tests** for the logic.
+![ScreenShot](https://github.com/Aliot26/Dungeon/blob/master/src/main/resources/screenshots/1.png?raw=true)
 
-## Implementation
-
-Take a look at `user-stories.md` for a list of proposed user stories.
 
 ## Graphics
-
 The tiles used in the game are from [1-Bit Pack by Kenney](https://kenney.nl/assets/bit-pack), shared on [CC0 1.0 Universal license](https://creativecommons.org/publicdomain/zero/1.0/).
 
-![tiles](src/main/resources/tiles.png)
