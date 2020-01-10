@@ -10,9 +10,9 @@ The project is using JavaFX, and should work with Oracle's Java 8.
 - https://github.com/wickedkat 
 
 ## Screenshots:
-![ScreenShot](https://github.com/Aliot26/WebShop/blob/master/src/main/webapp/static/img/print-screen/change-product.png?raw=true)
+![ScreenShot]https://github.com/Aliot26/Dungeon/blob/master/src/main/resources/screenshots/2.png?raw=true)
 
-![ScreenShot](https://github.com/Aliot26/WebShop/blob/master/src/main/webapp/static/img/print-screen/products-in-cart.png?raw=true)
+![ScreenShot](https://github.com/Aliot26/Dungeon/blob/master/src/main/resources/screenshots/1.png?raw=true)
 
 
 ## Graphics
