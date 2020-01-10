@@ -10,7 +10,7 @@ The project is using JavaFX, and should work with Oracle's Java 8.
 - https://github.com/wickedkat 
 
 ## Screenshots:
-![ScreenShot]https://github.com/Aliot26/Dungeon/blob/master/src/main/resources/screenshots/2.png?raw=true)
+![ScreenShot](https://github.com/Aliot26/Dungeon/blob/master/src/main/resources/screenshots/2.png?raw=true)
 
 ![ScreenShot](https://github.com/Aliot26/Dungeon/blob/master/src/main/resources/screenshots/1.png?raw=true)
 
